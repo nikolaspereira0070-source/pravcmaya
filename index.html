@@ -1,266 +1,57 @@
-`html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Minha Pessoa Favorita 💖</title>
-    <!-- Google Fonts para tipografia premium -->
+    <title>Para Minha Pessoa Favorita ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS para design ágil e moderno -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #03010e; overflow-x: hidden; }
+        .page-hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- PÁGINA 1: VALIDAÇÃO DA SENHA -->
+    <section id="page-1" class="min-h-screen flex flex-col items-center justify-center p-4">
+        <div class="bg-slate-900/80 p-8 rounded-2xl border border-blue-500/30 text-center max-w-md w-full shadow-2xl">
+            <h1 class="text-2xl font-bold text-white mb-6">Digite a senha para continuar</h1>
+            <input type="text" id="password-input" placeholder="Dica: data especial (ex: 041026)" class="w-full p-3 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:border-blue-500 mb-4 text-center">
+            <button onclick="verificarSenha()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold p-3 rounded-lg transition duration-300">Entrar</button>
+            <p id="error-message" class="text-red-400 text-sm mt-4 hidden">Senha incorreta... Pense com o coração! 💙</p>
+        </div>
+    </section>
+
+    <!-- PÁGINA 2: O CONTEÚDO DO SITE (SÓ APARECE APÓS A SENHA CORRETA) -->
+    <section id="page-2" class="page-hidden min-h-screen flex flex-col items-center justify-center p-4 text-center">
+        <div class="bg-slate-900/90 p-8 rounded-2xl border border-amber-500/30 max-w-xl w-full shadow-2xl">
+            <h1 class="text-3xl font-serif italic text-amber-400 mb-4">Feliz Aniversário, Meu Amor! 🎉❤️</h1>
+            <p class="text-slate-300 leading-relaxed mb-6">O seu site está totalmente ativo e pronto! Este é o espaço especial que foi preparado com todo o carinho para você.</p>
+            <div class="text-4xl">🎁✨🎈</div>
+        </div>
+    </section>
+
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        romance: {
-                            50: '#fff5f6',
-                            100: '#ffebe6',
-                            200: '#ffd1dc',
-                            300: '#ffb3c6',
-                            400: '#ff8fab',
-                            500: '#ff4d6d',
-                            600: '#c71f37',
-                            gold: '#dfb76c',
-                            goldlight: '#f3e5ab',
-                            blueglow: '#00d2ff',
-                            deepblue: '#030a1e'
-                        }
-                    },
-                    fontFamily: {
-                        handwritten: ['"Great Vibes"', 'cursive'],
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Montserrat"', 'sans-serif'],
-                    }
-                }
+        function verificarSenha() {
+            const input = document.getElementById('password-input').value;
+            // Remove tudo o que não for número (barras, pontos, espaços)
+            const senhaLimpa = input.replace(/\D/g, '');
+
+            // Aceita 041026 ou 04102026 de qualquer forma que for digitado
+            if (senhaLimpa === "041026" || senhaLimpa === "04102026") {
+                document.getElementById('page-1').classList.add('page-hidden');
+                document.getElementById('page-2').classList.remove('page-hidden');
+            } else {
+                document.getElementById('error-message').classList.remove('hidden');
             }
         }
     </script>
-    <style>
-        body {
-            background-color: #030a1e; /* Começa com azul profundo */
-            overflow-x: hidden;
-            font-family: 'Montserrat', sans-serif;
-            user-select: none;
-            -webkit-user-select: none;
-            transition: background-color 1.5s ease-in-out;
-        }
-
-        /* Efeito Glassmorphism Premium */
-        .glass-card {
-            background: rgba(255, 245, 246, 0.06);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(223, 183, 108, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(0, 210, 255, 0.1),
-                        inset 0 0 15px rgba(223, 183, 108, 0.05);
-        }
-
-        /* Borda Dourada Metálica */
-        .gold-border {
-            position: relative;
-        }
-        .gold-border::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: inherit;
-            border: 1.5px solid transparent;
-            background: linear-gradient(135deg, #dfb76c, #f3e5ab, #b8860b, #f3e5ab, #dfb76c) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
-
-        /* Brilho dourado pulsante */
-        .gold-glow {
-            box-shadow: 0 0 15px rgba(223, 183, 108, 0.4);
-            animation: goldPulse 3s infinite alternate;
-        }
-
-        @keyframes goldPulse {
-            0% { box-shadow: 0 0 10px rgba(223, 183, 108, 0.3); }
-            100% { box-shadow: 0 0 25px rgba(223, 183, 108, 0.6); }
-        }
-
-        /* Transições de Páginas */
-        .page-transition {
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .page-hidden {
-            opacity: 0;
-            transform: scale(0.95);
-            pointer-events: none;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-
-        .page-active {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Animação Máquina de Escrever */
-        .cursor-blink::after {
-            content: '|';
-            animation: blink 0.8s infinite;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* Flores decorativas */
-        .floral-decor {
-            opacity: 0;
-            filter: drop-shadow(0 0 8px rgba(255, 77, 109, 0.5));
-            pointer-events: none;
-            transition: all 1s ease-in-out;
-        }
-
-        /* Efeitos do Coração de Transição */
-        #heart-portal-container {
-            pointer-events: none;
-            z-index: 100;
-            background: rgba(3, 10, 30, 0);
-            transition: background 1.5s ease-in-out;
-        }
-        #heart-portal-container.overlay-dark {
-            background: rgba(13, 1, 7, 0.95);
-            pointer-events: auto;
-        }
-        .portal-heart {
-            transform: scale(0);
-            transition: transform 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .portal-heart.active {
-            transform: scale(1);
-        }
-        .portal-heart.open {
-            transform: scale(14);
-            opacity: 0;
-            transition: transform 2.2s cubic-bezier(0.7, 0, 0.3, 1), opacity 1.5s ease-in;
-        }
-
-        /* Cartões Interativos */
-        .love-card {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translateY(20px) scale(0.9);
-            opacity: 0;
-        }
-        .love-card.visible {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-        .love-card:active {
-            transform: scale(0.95) rotate(-2deg);
-            background: rgba(255, 77, 109, 0.2);
-            border-color: rgba(223, 183, 108, 0.8);
-        }
-
-        /* Caixa de Presente Mágica */
-        .gift-box-wrapper {
-            perspective: 1000px;
-        }
-        .gift-box {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease;
-        }
-        .gift-lid {
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
-            transform-origin: top;
-        }
-        .gift-box.shake {
-            animation: boxShake 0.6s infinite alternate;
-        }
-        @keyframes boxShake {
-            0% { transform: rotate(-5deg) translateY(0); }
-            100% { transform: rotate(5deg) translateY(-8px); }
-        }
-
-        /* Palavras Flutuantes */
-        .floating-word {
-            position: absolute;
-            pointer-events: none;
-            color: #ffd1dc;
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-shadow: 0 0 10px rgba(255, 77, 109, 0.8), 0 0 5px rgba(223, 183, 108, 0.5);
-            animation: floatUpWord 6s linear forwards;
-        }
-        @keyframes floatUpWord {
-            0% {
-                transform: translateY(50px) scale(0.5);
-                opacity: 0;
-            }
-            15% {
-                opacity: 1;
-                transform: translateY(0px) scale(1.1);
-            }
-            100% {
-                transform: translateY(-250px) scale(0.9) translateX(var(--drift, 20px));
-                opacity: 0;
-            }
-        }
-
-        /* Barra de rolagem personalizada */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(13, 1, 7, 0.95);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #dfb76c;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-<body class="relative min-h-screen flex flex-col justify-between overflow-hidden">
-
-    <!-- CANVAS PARA PARTÍCULAS E TOQUES -->
-    <canvas id="bg-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
-
-    <!-- ELEMENTO DE FLORES DECORATIVAS LATERAIS (Ocultas no início, aparecem depois) -->
-    <div id="floral-top-left" class="floral-decor fixed -top-12 -left-12 w-48 h-48 z-20">
-        <svg viewBox="0 0 200 200" fill="currentColor" class="text-romance-300">
-            <path d="M40,90 C30,70 10,70 5,90 C0,110 30,130 50,110 C70,90 60,60 40,90 Z M90,40 C70,30 70,10 90,5 C110,0 130,30 110,50 C90,70 60,60 90,40 Z M120,110 C140,120 160,110 165,95 C170,80 140,70 125,85 C110,100 100,120 120,110 Z" />
-            <path d="M20,20 C50,40 80,30 110,60" stroke="#dfb76c" stroke-width="2" fill="none"/>
-            <circle cx="90" cy="40" r="4" fill="#dfb76c"/>
-            <circle cx="40" cy="90" r="4" fill="#dfb76c"/>
-        </svg>
-    </div>
-    <div id="floral-bottom-right" class="floral-decor fixed -bottom-12 -right-12 w-48 h-48 z-20">
-        <svg viewBox="0 0 200 200" fill="currentColor" class="text-romance-300 transform rotate-180">
-            <path d="M40,90 C30,70 10,70 5,90 C0,110 30,130 50,110 C70,90 60,60 40,90 Z M90,40 C70,30 70,10 90,5 C110,0 130,30 110,50 C90,70 60,60 90,40 Z M120,110 C140,120 160,110 165,95 C170,80 140,70 125,85 C110,100 100,120 120,110 Z" />
-            <path d="M20,20 C50,40 80,30 110,60" stroke="#dfb76c" stroke-width="2" fill="none"/>
-            <circle cx="90" cy="40" r="4" fill="#dfb76c"/>
-            <circle cx="40" cy="90" r="4" fill="#dfb76c"/>
-        </svg>
-    </div>
-
-    <!-- ================= CONTEÚDO PRINCIPAL ================= -->
-    <main class="flex-grow flex items-center justify-center p-4 md:p-8 relative z-10 w-full max-w-lg mx-auto">
-
-        <!-- 🔐 PÁGINA 1 — TELA DE ACESSO (FUNDO AZUL E CORAÇÃO AZUL) -->
-        <section id="page-1" class="page-transition page-active w-full flex flex-col items-center">
-            <div class="glass-card gold-border rounded-3xl p-6 md:p-8 w-full text-center flex flex-col items-center space-y-6 relative overflow-hidden" style="border-color: rgba(0, 210, 255, 0.3);">
-                <!-- Brilho azul no fundo -->
-                <div class="absolute -top-12 w-40 h-40 bg-romance-blueglow/20 blur-3xl rounded-full"></div>
+</body>
+</html>
+ce-blueglow/20 blur-3xl rounded-full"></div>
 
                 <!-- Coração Azul Brilhante no Centro -->
                 <div class="relative w-20 h-20 flex items-center justify-center animate-pulse">
