@@ -8,194 +8,360 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Montserrat', sans-serif; background-color: #03010e; overflow-x: hidden; }
-        .page-hidden { display: none !important; }
-    </style>
-</head>
-<body>
-
-    <!-- PÁGINA 1: VALIDAÇÃO DA SENHA -->
-    <section id="page-1" class="min-h-screen flex flex-col items-center justify-center p-4">
-        <div class="bg-slate-900/80 p-8 rounded-2xl border border-blue-500/30 text-center max-w-md w-full shadow-2xl">
-            <h1 class="text-2xl font-bold text-white mb-6">Digite a senha para continuar</h1>
-            <input type="text" id="password-input" placeholder="Dica: data especial (ex: 041026)" class="w-full p-3 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:border-blue-500 mb-4 text-center">
-            <button onclick="verificarSenha()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold p-3 rounded-lg transition duration-300">Entrar</button>
-            <p id="error-message" class="text-red-400 text-sm mt-4 hidden">Senha incorreta... Pense com o coração! 💙</p>
-        </div>
-    </section>
-
-    <!-- PÁGINA 2: O CONTEÚDO DO SITE (SÓ APARECE APÓS A SENHA CORRETA) -->
-    <section id="page-2" class="page-hidden min-h-screen flex flex-col items-center justify-center p-4 text-center">
-        <div class="bg-slate-900/90 p-8 rounded-2xl border border-amber-500/30 max-w-xl w-full shadow-2xl">
-            <h1 class="text-3xl font-serif italic text-amber-400 mb-4">Feliz Aniversário, Meu Amor! 🎉❤️</h1>
-            <p class="text-slate-300 leading-relaxed mb-6">O seu site está totalmente ativo e pronto! Este é o espaço especial que foi preparado com todo o carinho para você.</p>
-            <div class="text-4xl">🎁✨🎈</div>
-        </div>
-    </section>
-
     <script>
-        function verificarSenha() {
-            const input = document.getElementById('password-input').value;
-            // Remove tudo o que não for número (barras, pontos, espaços)
-            const senhaLimpa = input.replace(/\D/g, '');
-
-            // Aceita 041026 ou 04102026 de qualquer forma que for digitado
-            if (senhaLimpa === "041026" || senhaLimpa === "04102026") {
-                document.getElementById('page-1').classList.add('page-hidden');
-                document.getElementById('page-2').classList.remove('page-hidden');
-            } else {
-                document.getElementById('error-message').classList.remove('hidden');
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        romance: {
+                            50: '#fff5f6',
+                            100: '#ffe6e9',
+                            200: '#ffd1d7',
+                            300: '#ffa3ae',
+                            400: '#ff667a',
+                            500: '#f73351',
+                            600: '#e41437',
+                            700: '#bf0a29',
+                            800: '#9e0c25',
+                            900: '#830f24',
+                            950: '#49020e',
+                        },
+                        gold: {
+                            glow: '#ffdf7a',
+                            glowbg: '#ffd11a',
+                            borderglow: '#ffea99',
+                            border: '#d4af37'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                        cursive: ['"Great Vibes"', 'cursive'],
+                    }
+                }
             }
         }
     </script>
-</body>
-</html>
-ce-blueglow/20 blur-3xl rounded-full"></div>
+    <style>
+        body {
+            background-color: #03010e; /* Começa com azul profundo */
+            font-family: 'Montserrat', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: background-color 1.5s ease-in-out;
+        }
 
+        /* Efeito Glassmorphism Premium */
+        .glass-card {
+            background: rgba(255, 245, 246, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 163, 174, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(10, 5, 25, 0.5);
+            inset: 0 0 15px rgba(224, 183, 108, 0.05);
+        }
+
+        /* Borda Dourada Metálica */
+        .gold-border {
+            position: relative;
+        }
+        .gold-border::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            border: 1px solid transparent;
+            background: linear-gradient(135deg, #d4af37, #dfb73c, #fae16c, #e6bb0b, #dfb73c, #d4af37) border-box;
+            background-image: linear-gradient(135deg, #d4af37, #dfb73c, #fae16c, #e6bb0b, #dfb73c, #d4af37);
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask-composite: uppercase;
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Brilho dourado pulsante */
+        @keyframes goldPulse {
+            0% { box-shadow: 0 0 15px rgba(223, 183, 106, 0.3); }
+            100% { box-shadow: 0 0 25px rgba(223, 183, 106, 0.5); }
+        }
+        .gold-glow {
+            animation: goldPulse 3s infinite alternate;
+        }
+
+        /* Transições de Páginas */
+        .page-transition {
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .page-hidden {
+            display: none !important;
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        .page-active {
+            display: flex !important;
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Animação Máquina de Escrever */
+        .cursor-blink::after {
+            content: '|';
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Flores decorativas */
+        .floral-decor {
+            filter: drop-shadow(0 0 8px rgba(255, 73, 109, 0.5));
+            pointer-events: none;
+            transition: all 1s ease-in-out;
+        }
+
+        /* Efeitos do Coração de Transição */
+        #heart-portal-container {
+            pointer-events: none;
+            z-index: 9999;
+            background: rgba(3, 1, 14, 0);
+            transition: background 1.5s ease-in-out;
+        }
+        #heart-portal-container.overlay-dark {
+            background: rgba(3, 1, 14, 0.95);
+            pointer-events: auto;
+        }
+        .portal-heart {
+            transform: scale(0);
+            transition: transform 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .portal-heart.active {
+            transform: scale(30);
+        }
+        .portal-heart.open {
+            transform: scale(0);
+            transition: transform 2.2s cubic-bezier(0.7, -0.3, 0.31, 1.1) 0.5s, opacity 1.5s ease-in-out;
+        }
+
+        /* Cartões Interativos */
+        .love-card-container {
+            perspective: 1000px;
+        }
+        .love-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .love-card-visible {
+            transform: rotateY(0deg) scale(1);
+            opacity: 1;
+        }
+        .love-card-reveal {
+            transform: rotateY(180deg) scale(1);
+        }
+        .love-card-container:hover .love-card-inner {
+            border-color: rgba(223, 183, 106, 0.8);
+        }
+
+        /* Caixa de Presente Mágica */
+        .gift-box-wrapper {
+            perspective: 1000px;
+        }
+        .gift-box {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        .gift-box.shake {
+            animation: shakeBox 0.5s infinite alternate;
+        }
+        @keyframes shakeBox {
+            0% { transform: rotate(0deg) translate(0px); }
+            100% { transform: rotate(-5deg) translate(-2px); }
+        }
+
+        /* Palavras Flutuantes */
+        .floating-word {
+            pointer-events: none;
+            position: absolute;
+            font-size: 1.1rem;
+            color: rgba(255, 73, 109, 0.3);
+            text-shadow: 0 0 10px rgba(223, 183, 106, 0.2);
+            animation: floatUpDown 6s linear forwards;
+        }
+        @keyframes floatUpDown {
+            0% { transform: translate(0px, 150px) scale(0.5); opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translate(-20px, -250px) scale(0.9); opacity: 0; filter: blur(1px); }
+        }
+
+        /* Barra de rolagem personalizada */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #03010e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f73351;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- CANVAS PARA PARTÍCULAS E TOQUES -->
+    <canvas id="intro-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- ELEMENTO DE FLORES DECORATIVAS LATERAIS (Ocultas no início, aparecem depois) -->
+    <div id="floral-decor-top" class="floral-decor fixed -top-12 -left-12 w-32 h-48 z-20 opacity-0 pointer-events-none">
+        <svg viewBox="0 0 100 150" class="w-full h-full" style="color: currentColor;"><path d="M10,10 Q30,70 70,10 Q95,5 L10,10 Z M30,40 Q50,90 90,60 M20,60 M40,110 M20,130" stroke="rgba(255,163,174,0.3)" stroke-width="2" fill="none"/></svg>
+    </div>
+    <div id="floral-decor-bottom" class="floral-decor fixed -bottom-12 -right-12 w-32 h-48 z-20 opacity-0 pointer-events-none" style="transform: rotate(180deg);">
+        <svg viewBox="0 0 100 150" class="w-full h-full" style="color: currentColor;"><path d="M10,10 Q30,70 70,10 Q95,5 L10,10 Z M30,40 Q50,90 90,60 M20,60 M40,110 M20,130" stroke="rgba(255,163,174,0.3)" stroke-width="2" fill="none"/></svg>
+    </div>
+
+    <!-- ==================== CONTEÚDO PRINCIPAL ==================== -->
+    <main class="flex-grow flex flex-col items-center justify-center p-4 md:p-8 relative z-10 w-full max-w-5xl mx-auto">
+
+        <!-- 🟦 PÁGINA 1 - TELA DE ACESSO (FUNDO AZUL E CORAÇÃO AZUL) -->
+        <section id="page-1" class="page-transition page-active w-full flex flex-col items-center justify-center">
+            <div class="glass-card gold-border gold-glow rounded-3xl p-6 md:p-10 text-center flex flex-col items-center space-y-6 w-full max-w-md relative overflow-hidden h-auto shadow-[0_0_50px_rgba(3,105,161,0.2)]">
                 <!-- Coração Azul Brilhante no Centro -->
-                <div class="relative w-20 h-20 flex items-center justify-center animate-pulse">
-                    <svg class="w-full h-full text-romance-blueglow filter drop-shadow-[0_0_15px_rgba(0,210,255,0.8)]" fill="currentColor" viewBox="0 0 24 24">
+                <div class="w-24 h-24 flex items-center justify-center active:scale-95 transition-all duration-300 select-none cursor-pointer">
+                    <svg class="w-full h-full text-blue-500 fill-current romance-blueglow filter drop-shadow-[0_0_15px_rgba(59,130,246,0.6)] animate-pulse" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
                 </div>
-                
-                <h1 class="font-serif text-2xl md:text-3xl text-white font-semibold leading-relaxed px-2">
-                    Uma surpresa para a pessoa mais especial da minha vida
+                <h1 class="class-font-serif text-2xl md:text-3xl text-white font-semibold leading-relaxed px-2">
+                    Para uma pessoa super especial da minha vida
                 </h1>
-
-                <p class="text-blue-100/80 text-sm md:text-base font-light leading-relaxed">
+                <p class="text-xs md:text-sm text-blue-200 mt-2 font-light leading-relaxed px-2">
                     Existe uma data muito importante que representa um momento especial. Digite a senha para continuar.
                 </p>
-
                 <!-- Input premium de senha -->
                 <div class="w-full relative max-w-xs pt-2">
-                    <input type="text" id="password-input" placeholder="DD/MM/AAAA" 
-                           class="w-full text-center bg-black/40 text-romance-blueglow placeholder-blue-300/30 font-semibold tracking-widest py-3 px-4 rounded-xl border border-romance-blueglow/40 focus:border-romance-blueglow focus:outline-none focus:ring-1 focus:ring-romance-blueglow/50 transition-all text-lg shadow-inner">
-                    <div class="absolute -bottom-1 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-romance-blueglow to-transparent opacity-70"></div>
+                    <input type="text" id="password-input" placeholder="DDMMAAAA" class="w-full text-center bg-black/40 text-romance-blueglow placeholder-blue-300/30 font-semibold tracking-widest p-3 px-4 rounded-xl border border-romance-blueglow/40 focus:focus-outline-none focus:ring-1 focus:ring-romance-blueglow/50 focus:transition-all text-sm lg:shadow-inner text-white" />
+                    <div class="absolute -bottom-1 left-0 right-0 h-px bg-gradient-from-transparent via-romance-blueglow to-transparent opacity-70"></div>
                 </div>
-
-                <div id="password-error" class="text-romance-blueglow text-xs font-semibold h-4 transition-all opacity-0">
+                <!-- Mensagem de erro -->
+                <p id="error-message" class="text-sm text-romance-blueglow text-font-semibold shadow-0 h-4 transition-all opacity-0">
                     Senha incorreta... Pense com o coração! 💙
-                </div>
-
-                <button id="submit-password" class="w-full max-w-xs py-3 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-romance-blueglow text-white font-semibold shadow-[0_0_15px_rgba(0,210,255,0.4)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
-                    <span>Revelar Segredo</span> ✨
+                </p>
+                <!-- Botão -->
+                <button id="submit-password" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-romance-blueglow hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 text-white font-medium text-sm shadow-[0_5px_15px_rgba(3,105,161,0.3)]">
+                    <span>Acessar</span>
                 </button>
             </div>
         </section>
 
-
-        <!-- 🎂 PÁGINA 2 — FELIZ ANIVERSÁRIO -->
+        <!-- 🟥 PÁGINA 2 - FELIZ ANIVERSÁRIO -->
         <section id="page-2" class="page-transition page-hidden w-full flex flex-col items-center">
-            <div class="glass-card gold-border rounded-3xl p-6 md:p-8 w-full text-center flex flex-col items-center space-y-6 max-h-[85vh] overflow-y-auto">
-                <div class="text-4xl">🎂</div>
-                
-                <h1 class="font-serif text-3xl md:text-4xl text-romance-goldlight font-bold drop-shadow-[0_2px_10px_rgba(223,183,108,0.3)]">
+            <div class="glass-card gold-border gold-glow rounded-3xl p-6 md:p-8 w-full flex flex-col items-center space-y-6 max-w-xl text-center">
+                <h1 class="class-font-serif text-3xl md:text-4xl text-romance-goldfont gold-glow drop-shadow-[0_2px_10px_rgba(223,183,106,0.3)] font-serif italic">
                     Feliz Aniversário, Meu Amor ❤️
                 </h1>
-
                 <!-- Caixa de texto com efeito máquina de escrever -->
-                <div class="w-full bg-black/30 rounded-2xl p-4 md:p-6 text-left border border-romance-400/10 shadow-inner overflow-y-auto max-h-[42vh]">
+                <div class="w-full bg-black/30 rounded-2xl p-4 md:p-6 border border-romance-400/10 shadow-inner overflow-y-auto max-h-[42vh]">
                     <p id="typewriter-text" class="text-romance-50 text-sm md:text-base leading-relaxed font-light cursor-blink whitespace-pre-line"></p>
                 </div>
-
-                <button id="btn-goto-p3" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-500 via-romance-400 to-romance-500 text-white font-semibold gold-glow hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mt-2 opacity-0 pointer-events-none transition-opacity duration-1000">
-                    <span>Continuar</span> 💖
+                <!-- Botão -->
+                <button id="btn-goto-p3" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-600 to-romance-500 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mt-2 opacity-0 pointer-events-none transition-opacity duration-1000">
+                    <span>Continuar</span>
                 </button>
             </div>
         </section>
 
-
-        <!-- 🌹 PÁGINA 3 — O QUE EU AMO EM VOCÊ (COMEÇA EM BRANCO) -->
+        <!-- 🟥 PÁGINA 3 - O QUE EU AMO EM VOCÊ (COMEÇA EM BRANCO) -->
         <section id="page-3" class="page-transition page-hidden w-full flex flex-col items-center">
-            <div class="glass-card gold-border rounded-3xl p-5 md:p-8 w-full text-center flex flex-col items-center space-y-5 max-h-[85vh]">
-                
-                <div class="text-3xl">🌹</div>
-                <h2 class="font-serif text-2xl md:text-3xl text-romance-goldlight font-semibold">
-                    O Que Eu Amo Em Você
-                </h2>
-                <p id="p3-instruction" class="text-xs text-romance-200">Toque no botão abaixo para descobrir cada detalhe...</p>
-
+            <div class="w-full flex flex-col items-center space-y-4 max-w-xl text-center">
+                <div class="text-center">
+                    <h2 class="text-2xl md:text-3xl text-font-romance-goldfont font-semibold">O Que Eu Amo Em Você</h2>
+                    <p id="p3-instruction" class="text-sm text-romance-200 mt-2">Toque no botão abaixo para descobrir cada detalhe...</p>
+                </div>
                 <!-- Grid de cartões românticos flutuantes (começa vazio) -->
-                <div id="cards-container" class="grid grid-cols-2 gap-3 w-full overflow-y-auto py-2 px-1 max-h-[40vh]"></div>
-
+                <div id="cards-container" class="grid grid-cols-2 gap-3 md:grid-cols-2 p-1 w-full overflow-y-auto pane-g-2 max-h-[40vh] overflow-x-hidden"></div>
                 <!-- Botão premium interativo para revelar um a um -->
-                <button id="btn-reveal-quality" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-goldlight via-romance-gold to-yellow-600 text-black font-semibold shadow-[0_0_15px_rgba(223,183,108,0.4)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 duration-300">
-                    <span>Descobrir Motivo</span> ✨
+                <button id="btn-reveal-quality" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-600 to-romance-500 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
+                    <span id="txt-reveal-quality">Descobrir Motivo</span>
                 </button>
-
                 <!-- Botão oculto, surge apenas ao final -->
-                <button id="btn-goto-p4" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-500 to-romance-600 text-white font-semibold gold-glow hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mt-2 opacity-0 pointer-events-none transition-all duration-1000">
-                    <span>Próxima Surpresa</span> 💖
+                <button id="btn-goto-p4" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-600 to-romance-500 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mt-2 opacity-0 pointer-events-none transition-opacity duration-1000">
+                    <span>Próxima Surpresa</span>
                 </button>
             </div>
         </section>
 
-
-        <!-- 🎁 PÁGINA 4 — HOJE, MEU PRESENTE PARA VOCÊ -->
+        <!-- 🟥 PÁGINA 4 - HOJE, MEU PRESENTE PARA VOCÊ -->
         <section id="page-4" class="page-transition page-hidden w-full flex flex-col items-center">
-            <div class="glass-card gold-border rounded-3xl p-5 md:p-8 w-full text-center flex flex-col items-center space-y-6 max-h-[85vh] overflow-y-auto">
-                
-                <div class="text-3xl">🎁</div>
-                <h2 class="font-serif text-2xl md:text-3xl text-romance-goldlight font-semibold">
-                    Hoje, Meu Presente Para Você
-                </h2>
-
+            <div class="glass-card gold-border gold-glow rounded-3xl p-6 md:p-8 w-full flex flex-col items-center space-y-6 max-w-md text-center">
+                <h2 class="text-2xl md:text-3xl text-font-romance-goldfont font-semibold">Hoje, Meu Presente Para Você</h2>
                 <!-- Caixa de Presente -->
-                <div class="gift-box-wrapper py-6 flex justify-center items-center relative w-full h-40">
-                    <div id="gift-box-element" class="gift-box shake cursor-pointer">
-                        <div id="gift-lid-element" class="gift-lid absolute -top-5 left-0 w-full z-10">
-                            <svg viewBox="0 0 140 35" fill="none" class="w-[140px] drop-shadow-md">
-                                <rect width="140" height="25" rx="4" fill="#ff8fab" stroke="#dfb76c" stroke-width="2"/>
-                                <rect x="62" width="16" height="25" fill="#dfb76c"/>
-                                <path d="M70,0 C55,-18 50,5 70,0 Z M70,0 C85,-18 90,5 70,0 Z" fill="#dfb76c" stroke="#fff" stroke-width="1"/>
-                            </svg>
-                        </div>
-                        <div class="absolute top-5 left-2 w-[124px] h-[95px]">
-                            <svg viewBox="0 0 124 95" fill="none" class="w-full h-full drop-shadow-lg">
-                                <rect width="124" height="95" rx="6" fill="#ff4d6d" stroke="#dfb76c" stroke-width="2"/>
-                                <rect x="54" width="16" height="95" fill="#dfb76c"/>
-                            </svg>
-                        </div>
+                <div class="gift-box-wrapper my-6 flex justify-center items-center relative w-full h-40">
+                    <div id="gift-box-element" class="gift-box shake cursor-pointer animate-solor-pulse">
+                        <!-- Desenho da Caixa em SVG -->
+                        <svg viewBox="0 0 140 140" class="w-full h-full fill-current">
+                            <!-- Corpo da caixa -->
+                            <rect x="20" y="50" width="100" height="70" rx="4" fill="#f73351" stroke="#dfb73c" stroke-width="2"/>
+                            <!-- Tampa da caixa -->
+                            <rect x="15" y="35" width="110" height="20" rx="3" fill="#e41437" stroke="#dfb73c" stroke-width="2"/>
+                            <!-- Fita vertical -->
+                            <rect x="62" y="35" width="16" height="85" fill="#dfb73c"/>
+                            <!-- Fita horizontal -->
+                            <rect x="20" y="75" width="100" height="16" fill="#dfb73c"/>
+                            <!-- Laço esquerdo -->
+                            <path d="M65,35 C45,15 40,35 65,35 Z" fill="none" stroke="#dfb73c" stroke-width="5"/>
+                            <!-- Laço direito -->
+                            <path d="M75,35 C95,15 100,35 75,35 Z" fill="none" stroke="#dfb73c" stroke-width="5"/>
+                        </svg>
                     </div>
-                    <div id="box-glow" class="absolute w-24 h-24 bg-romance-goldlight/30 blur-xl rounded-full opacity-60 scale-50 transition-transform duration-1000"></div>
+                    <!-- Brilho ao redor -->
+                    <div class="absolute inset-auto glow class-glow-absolute w-24 h-24 bg-romance-goldglow/30 blur-xl rounded-full opacity-0 scale-50 transition-all duration-1000 pointer-events-none" id="gift-glow"></div>
                 </div>
-
                 <!-- Texto explicativo que muda após abrir -->
-                <div class="text-romance-100/90 text-sm md:text-base font-light leading-relaxed max-h-[22vh] overflow-y-auto px-1">
-                    <p id="present-text">
-                        Toque no presente acima para abrir seu conteúdo mágico e libertar meus sentimentos reais por você... ✨
-                    </p>
-                </div>
-
-                <button id="btn-goto-p5" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-500 to-romance-600 text-white font-semibold gold-glow hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 opacity-40 pointer-events-none">
-                    <span>Abrir Meu Coração</span> 💝
+                <p id="gift-text" class="text-sm text-romance-100 leading-relaxed max-h-[12vh] overflow-y-auto">Toque no presente acima para abrir seu conteúdo mágico e liberar meus sentimentos reais por você!</p>
+                <!-- Botão -->
+                <button id="btn-goto-p5" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-600 to-romance-500 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mt-2 opacity-0 pointer-events-none transition-opacity duration-1000">
+                    <span>Abrir</span>
                 </button>
             </div>
         </section>
 
-
-        <!-- 💌 PÁGINA 5 — PROMESSA -->
+        <!-- 🟥 PÁGINA 5 - PROMESSA -->
         <section id="page-5" class="page-transition page-hidden w-full flex flex-col items-center">
-            <div class="glass-card gold-border rounded-3xl p-6 md:p-8 w-full text-center flex flex-col items-center space-y-6 max-h-[85vh] overflow-y-auto">
-                
-                <div class="text-3xl animate-pulse">💌</div>
-                <h2 class="font-serif text-2xl md:text-3xl text-romance-goldlight font-semibold">
-                    Uma Promessa
-                </h2>
-
-                <div class="w-full text-left space-y-4 py-2 border-y border-romance-gold/20 my-2 overflow-y-auto max-h-[45vh]">
-                    <div id="promise-list" class="space-y-4"></div>
+            <div class="glass-card gold-border gold-glow rounded-3xl p-6 md:p-8 w-full flex flex-col items-center space-y-6 max-w-xl text-center">
+                <h2 class="text-2xl md:text-3xl text-font-romance-goldfont font-semibold">Minha Promessa Para Você</h2>
+                <div class="w-full bg-black/30 rounded-2xl p-4 md:p-6 border border-romance-goldborder/20 overflow-y-auto max-h-[42vh] relative text-left">
+                    <p id="promise-text" class="text-slate-200 text-sm md:text-base leading-relaxed font-light cursor-blink whitespace-pre-line"></p>
                 </div>
-
-                <button id="btn-goto-final" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-500 to-romance-600 text-white font-semibold gold-glow hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 opacity-0 pointer-events-none duration-1000">
-                    <span>Última Mensagem</span> ❤️
+                <button id="btn-goto-final" class="w-full max-w-xs py-3.5 px-6 rounded-xl bg-gradient-to-r from-romance-600 to-romance-500 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mt-2 opacity-0 pointer-events-none transition-opacity duration-1000">
+                    <span>Última Mensagem</span>
                 </button>
             </div>
         </section>
 
-
-        <!-- ❤️ PÁGINA FINAL -->
+        <!-- 🟥 PÁGINA FINAL -->
         <section id="page-final" class="page-transition page-hidden w-full flex flex-col items-center">
-            <div class="glass-card gold-border rounded-3xl p-6 md:p-8 w-full text-c
+            <div class="glass-card gold-border gold-glow rounded-3xl p-6 md:p-10 text-center flex flex-col items-center space-y-6 w-full max-w-md relative overflow-hidden h-auto">
+                <div class="w-20 h-20 active:scale-95 transition-all duration-300 cursor-pointer" id="final-heart">
+                    <svg class="w-full h-full text-romance-500 fill-current filter drop-shadow-[0_0_15px_rgba(247,51,81,0.6)] animate-pulse" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <h1 class="font-serif text-3xl text-romance-goldfont gold-glow italic">Para Sempre</h1>
+                <p class="text-sm text-romance-100 font-light leading-relaxed px-2">
+                    Obrigado por ser a melhor parte do meu mundo. Este site ficará sempre ativo como um pequeno monumento ao que sinto por ti.
+                </p>
+                <div cl
