@@ -342,4 +342,196 @@
 
         function executarTransicaoPortal(idPaginaAtual, idProximaPagina, corPortal, callbackPos) {
             const container = document.getElementById('heart-portal-container');
-            const svgHeart = document.getElementById('portal
+            const svgHeart = document.getElementById('portal-heart-svg');
+            
+            svgHeart.style.color = corPortal;
+            container.classList.add('overlay-dark');
+            svgHeart.classList.add('active');
+
+            setTimeout(() => {
+                document.getElementById(idPaginaAtual).classList.remove('page-active');
+                document.getElementById(idPaginaAtual).classList.add('page-hidden');
+                
+                document.getElementById(idProximaPagina).classList.remove('page-hidden');
+                document.getElementById(idProximaPagina).classList.add('page-active');
+                
+                svgHeart.classList.remove('active');
+                svgHeart.classList.add('open');
+                container.classList.remove('overlay-dark');
+
+                setTimeout(() => {
+                    svgHeart.classList.remove('open');
+                    if(callbackPos) callbackPos();
+                }, 800);
+            }, 1200);
+        }
+
+        function iniciarEfeitoMaquinaEscrever(idElemento, texto, callbackFinal) {
+            const el = document.getElementById(idElemento);
+            el.textContent = '';
+            let i = 0;
+            el.classList.add('cursor-blink');
+            
+            function digitar() {
+                if (i < texto.length) {
+                    el.textContent += texto.charAt(i);
+                    i++;
+                    el.parentElement.scrollTop = el.parentElement.scrollHeight;
+                    setTimeout(digitar, 30);
+                } else {
+                    el.classList.remove('cursor-blink');
+                    if (callbackFinal) callbackFinal();
+                }
+            }
+            digitar();
+        }
+
+        document.getElementById('btn-goto-p3').addEventListener('click', () => {
+            executarTransicaoPortal('page-2', 'page-3', '#ffdf7a', () => {
+                gerarPalavrasFlutuantes();
+            });
+        });
+
+        let indiceQualidade = 0;
+        document.getElementById('btn-reveal-quality').addEventListener('click', () => {
+            if (indiceQualidade < motivosAmor.length) {
+                const container = document.getElementById('cards-container');
+                document.getElementById('p3-instruction').classList.add('hidden');
+                
+                const card = document.createElement('div');
+                card.className = 'love-card-container w-full p-1';
+                card.innerHTML = `
+                    <div class="glass-card gold-border rounded-xl p-4 flex items-center justify-center min-h-[70px]">
+                        <p class="text-xs md:text-sm text-white font-medium text-center">${motivosAmor[indiceQualidade]}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+                container.scrollTop = container.scrollHeight;
+                indiceQualidade++;
+                
+                if (indiceQualidade === motivosAmor.length) {
+                    document.getElementById('btn-reveal-quality').classList.add('hidden');
+                    document.getElementById('btn-goto-p4').classList.remove('opacity-0', 'pointer-events-none');
+                }
+            }
+        });
+
+        document.getElementById('btn-goto-p4').addEventListener('click', () => {
+            executarTransicaoPortal('page-3', 'page-4', '#f73351');
+        });
+
+        document.getElementById('gift-box-element').addEventListener('click', function() {
+            this.classList.remove('shake');
+            this.style.transform = 'scale(0.8) rotateY(180deg)';
+            this.style.opacity = '0';
+            this.style.pointerEvents = 'none';
+            
+            document.getElementById('gift-glow').classList.remove('opacity-0', 'scale-50');
+            document.getElementById('gift-glow').classList.add('scale-150', 'opacity-100');
+
+            setTimeout(() => {
+                document.getElementById('gift-text').innerHTML = "<strong>Seu presente especial:</strong><br>Um cupom eterno válido para cafuné ilimitado, jantares românticos e todo o meu amor verdadeiro pro resto da vida! 🎫❤️";
+                document.getElementById('btn-goto-p5').classList.remove('opacity-0', 'pointer-events-none');
+            }, 500);
+        });
+
+        document.getElementById('btn-goto-p5').addEventListener('click', () => {
+            executarTransicaoPortal('page-4', 'page-5', '#d4af37', () => {
+                iniciarEfeitoMaquinaEscrever('promise-text', textoPromessa, () => {
+                    document.getElementById('btn-goto-final').classList.remove('opacity-0', 'pointer-events-none');
+                });
+            });
+        });
+
+        document.getElementById('btn-goto-final').addEventListener('click', () => {
+            executarTransicaoPortal('page-5', 'page-final', '#f73351', () => {
+                dispararChuvaCoracoesFinais();
+            });
+        });
+
+        const canvas = document.getElementById('intro-canvas');
+        const ctx = canvas.getContext('2d');
+        let particulas = [];
+
+        function redimensionarCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', redimensionarCanvas);
+        redimensionarCanvas();
+
+        class ParticulaCoracao {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 5 + 4;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = -(Math.random() * 1 + 0.5);
+                this.opacity = Math.random() * 0.4 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y < -20) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#f73351';
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.bezierCurveTo(this.x - this.size/2, this.y - this.size/2, this.x - this.size, this.y + this.size/3, this.x, this.y + this.size);
+                ctx.bezierCurveTo(this.x + this.size, this.y + this.size/3, this.x + this.size/2, this.y - this.size/2, this.x, this.y);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 30; i++) particulas.push(new ParticulaCoracao());
+
+        function animarFundo() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particulas.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animarFundo);
+        }
+        animarFundo();
+
+        function gerarPalavrasFlutuantes() {
+            const palavras = ["Amor", "Vida", "Princesa", "Meu Bem", "Anjo", "Te Amo", "Linda"];
+            setInterval(() => {
+                const p3 = document.getElementById('page-3');
+                if (p3.classList.contains('page-active')) {
+                    const el = document.createElement('div');
+                    el.className = 'floating-word font-serif italic';
+                    el.textContent = palavras[Math.floor(Math.random() * palavras.length)];
+                    el.style.left = Math.random() * 80 + 10 + '%';
+                    p3.appendChild(el);
+                    setTimeout(() => el.remove(), 5000);
+                }
+            }, 2000);
+        }
+
+        function dispararChuvaCoracoesFinais() {
+            setInterval(() => {
+                const finalSec = document.getElementById('page-final');
+                if (finalSec.classList.contains('page-active')) {
+                    const c = document.createElement('div');
+                    c.className = 'absolute text-xl pointer-events-none';
+                    c.innerHTML = '❤️';
+                    c.style.left = Math.random() * 100 + '%';
+                    c.style.top = '-20px';
+                    c.style.transition = 'transform 4s linear';
+                    finalSec.appendChild(c);
+                    setTimeout(() => { c.style.transform = `translateY(${window.innerHeight + 50}px)`; }, 50);
+                    setTimeout(() => c.remove(), 4000);
+                }
+            }, 400);
+        }
+
+        document.getElementById('password-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') verificarSenha();
+        });
+    </script>
+</body>
+</html>
